@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Welcome To Twitter Clone</h1>
+<a href="/profile/{{ user.id }}/">Profile</a>
+<a href="/tweet/">Tweet Away</a>
+<a href="/notifications/{{ user.id }}/">Notifications {{count}}</a>
+{% for tweet in tweets %}
+<ul>
+  <a href="/profile/{{ tweet.posted_by.id }}/">@{{ tweet.posted_by }}</a> 
+  <a href="/tweet/{{ tweet.id }}/">{{ tweet.date_filed }}</a>
+  {{tweet.text}}
+</ul>
+{% endfor %}
+<a href="/logout/">Logout</a>
+
+{% endblock content %}
