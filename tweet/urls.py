@@ -5,5 +5,5 @@ from tweet import views
 
 urlpatterns = [
     path('tweet/', views.create_tweet),
-    path('tweet/<int:tweet_id>/', views.tweet_view),
+    path('tweet/<int:tweet_id>/', views.TweetView.as_view()),
 ]

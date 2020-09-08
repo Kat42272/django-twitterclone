@@ -1,10 +1,11 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.views.generic import View
 
 from tweet.models import TweetModel
 from notification.models import NotificationModel
-from authentication.views import login_view
+from authentication.views import LoginView
 
 from .forms import SignUpForm
 from .models import TwitterUserModel
@@ -28,8 +29,27 @@ def index(request):
       })
 
 
-def create_user(request):
-  if request.method == "POST":
+# def create_user(request):
+#   if request.method == "POST":
+#     form = SignUpForm(request.POST)
+#     if form.is_valid():
+#       data = form.cleaned_data
+#       new_user = TwitterUserModel.objects.create_user(
+#         username=data.get('username'),
+#         password=data.get('password'),
+#       )
+#       if new_user:
+#         login(request, new_user)
+#         return HttpResponseRedirect(reverse('homepage'))
+#   form = SignUpForm()
+#   return render(request, 'signup.html', {'form': form})
+
+class CreateUserView(View):
+  def get(self, request):
+    form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
+
+  def post(self, request):
     form = SignUpForm(request.POST)
     if form.is_valid():
       data = form.cleaned_data
@@ -40,8 +60,6 @@ def create_user(request):
       if new_user:
         login(request, new_user)
         return HttpResponseRedirect(reverse('homepage'))
-  form = SignUpForm()
-  return render(request, 'signup.html', {'form': form})
 
 
 def user_profile(request, user_id):

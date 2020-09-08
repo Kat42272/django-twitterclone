@@ -1,5 +1,6 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.views.generic import View
 
 from .forms import TweetForm
 from .models import TweetModel
@@ -37,6 +38,11 @@ def create_tweet(request):
   return render(request, 'tweet.html', {'form': form})
 
 
-def tweet_view(request, tweet_id):
-  tweet = TweetModel.objects.get(id=tweet_id)
-  return render(request, 'tweet_view.html', {'tweet': tweet})
+# def tweet_view(request, tweet_id):
+#   tweet = TweetModel.objects.get(id=tweet_id)
+#   return render(request, 'tweet_view.html', {'tweet': tweet})
+
+class TweetView(View):
+  def get(self, request, tweet_id):
+    tweet = TweetModel.objects.get(id=tweet_id)
+    return render(request, 'tweet_view.html', {'tweet': tweet})
